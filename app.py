@@ -1,6 +1,6 @@
 import os
 from urllib.request import HTTPErrorProcessor
-import pyrebase
+# import pyrebase
 from tensorflow.keras.utils import img_to_array
 from keras.models import load_model
 import cv2
