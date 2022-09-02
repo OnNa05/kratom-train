@@ -1,6 +1,6 @@
+cv2
 tensorflow
 keras
-cv2
 numpy
 werkzeug
 os
