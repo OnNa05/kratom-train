@@ -1,6 +1,4 @@
-cv2
+opencv-python
 tensorflow
 keras
 numpy
-werkzeug
-os
