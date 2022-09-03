@@ -23,12 +23,14 @@ from werkzeug.exceptions import HTTPException
 # storage = firebase.storage()
 
 from flask import *
+from flask_restful import Resource,Api,reqparse
 
 # ['Boiled_leaves', 'Green_stalk_GradeA', 'Green_stalk_GradeB', 'Green_stalk_GradeC', 'JUMBO', 'Red_stalk_GradeA', 'Red_stalk_GradeB', 'Red_stalk_GradeC']
 names = ['Boiled_leaves', 'Green_stalk_GradeA', 'Green_stalk_GradeB', 'Green_stalk_GradeC',
          'JUMBO', 'Red_stalk_GradeA', 'Red_stalk_GradeB', 'Red_stalk_GradeC']
 
 app = Flask(__name__)
+api = Api(app)
 
 # @app.route('/', methods=['GET', 'POST'])
 # def basic():
