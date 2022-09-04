@@ -7,6 +7,7 @@ import cv2
 import numpy as np
 from werkzeug.exceptions import HTTPException
 
+# config firebase line 11 - 24
 # firebaseConfig = {
 #   "apiKey": "",
 #   "authDomain": "",
@@ -25,13 +26,14 @@ from werkzeug.exceptions import HTTPException
 from flask import *
 from flask_restful import Resource, Api, reqparse
 
-# ['Boiled_leaves', 'Green_stalk_GradeA', 'Green_stalk_GradeB', 'Green_stalk_GradeC', 'JUMBO', 'Red_stalk_GradeA', 'Red_stalk_GradeB', 'Red_stalk_GradeC']
+# edit class here
 names = ['Boiled_leaves', 'Green_stalk_GradeA', 'Green_stalk_GradeB', 'Green_stalk_GradeC',
          'JUMBO', 'Red_stalk_GradeA', 'Red_stalk_GradeB', 'Red_stalk_GradeC']
 
 app = Flask(__name__)
 api = Api(app)
 
+# Guide for uploading images to firebase
 # @app.route('/', methods=['GET', 'POST'])
 # def basic():
 #     if request.method == 'POST':
@@ -40,7 +42,7 @@ api = Api(app)
 #         return redirect(url_for('uploads'))
 #     return render_template('index.html')
 
-
+# Guide for get images url from firebase
 # @app.route('/uploads', methods=['GET', 'POST'])
 # def uploads():
 #     if request.method == 'POST':
@@ -51,7 +53,7 @@ api = Api(app)
 #         return render_template('upload.html', l=links)
 #     return render_template('upload.html')
 
-@app.errorhandler(HTTPException)
+@app.errorhandler(HTTPException) # if found error will response error message
 def handle_exception(e):
     # start with the correct headers and status code from the error
     response = e.get_response()
@@ -65,7 +67,7 @@ def handle_exception(e):
     return response
 
 
-@app.route('/', methods=['GET'])
+@app.route('/', methods=['GET']) # ping
 def ping():
     data = {
         "stsatus": "ok",
@@ -75,9 +77,10 @@ def ping():
 
 @app.route('/predict', methods=['POST'])
 def predict():
-    upload = request.files['upload']
+    upload = request.files['upload'] # request key name = 'upload'
     upload.save("img.jpg")
 
+    # Adjust the picture to be ready to predict.
     loadModel = load_model("model.h5")
     image = cv2.imread("img.jpg")
     image = cv2.resize(image, (128, 128))
@@ -85,6 +88,7 @@ def predict():
     image = img_to_array(image)
     image = np.expand_dims(image, axis=0)
 
+    # predict
     res = loadModel.predict(image)
     label = np.argmax(res)
     labelName = names[label]
@@ -95,4 +99,4 @@ def predict():
 
 
 if __name__ == '__main__':
-    app.run(debug=True, host="0.0.0.0", port=int(os.environ.get("PORT", 8080)))
+    app.run(debug=True, host="0.0.0.0",port=8000)
